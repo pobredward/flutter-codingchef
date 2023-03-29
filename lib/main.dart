@@ -1,202 +1,151 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyPage(),
+    return const MaterialApp(
+      home: ListViewPage(),
     );
   }
 }
 
-class MyPage extends StatelessWidget {
-  const MyPage({Key? key}) : super(key: key);
+class ListViewPage extends StatefulWidget {
+  const ListViewPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Scaffold Messanger"),
-      ),
-      body: HomeBody(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.thumb_up),
-        onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text('Like a new snack bar!'),
-                duration: Duration(seconds: 5),
-                action: SnackBarAction(
-                  label: 'Undo',
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ThirdPage())
-                    );
-                  },
-                )
-            ),
-          );
-        },
-      ),
-    );
-  }
+  State<ListViewPage> createState() => _ListViewPageState();
 }
 
-class HomeBody extends StatelessWidget {
-  const HomeBody({Key? key}) : super(key: key);
+class _ListViewPageState extends State<ListViewPage> {
+  var titleList = ['Dentist', 'Pharmacist', 'IT manager', 'product manager'];
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: ElevatedButton(
-          child: const Text("Go to the second page"),
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => SecondPage()),
-            );
-          },
-        )
-    );
-  }
-}
+  var imageList = [
+    'image/1.jpg',
+    'image/2.jpg',
+    'image/3.jpg',
+    'image/4.png',
+  ];
 
+  var description = [
+    '1. hello, this isfdfkf dslfm dslfmlddsf dslfm dsf dslfm dslfmldf dslfm dslfmldlfmld f',
+    '2. hello, this isfdfkdf dslfm dslfmldsf dslfm dslff dslfm dslfmldf dslfm dslfmldf dslfm dslfmldmld f',
+    '3. hello, this isfdfkf dslfm dslfmlddf dslfm dslfmldf dslfm dslfmldsf dslfm dslfmld f',
+    '4. hello, this isfdfkf dslfm dslfmldf dslfm dslfmldf dslfm dslfmlddsf dslfm dslfmld f',
+  ];
 
-class SecondPage extends StatelessWidget {
-  const SecondPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-            title: Text('Second Page')
-        ),
-        body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('좋아요가 추가되었습니다',
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.redAccent
+  void showPopup(context, title, image, description) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.7,
+              height: 380,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    child: Image.asset(
+                      image,
+                      width: 200,
+                      height: 200
+                    ),
                   ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    print('Short Click');
-                  },
-                  onLongPress: () {
-                    print('Long Click');
-                  },
-                  child: Text(
-                      'Text Button',
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey
+                    )
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      description,
+                      maxLines: 3,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 30.0,
+                        fontSize: 15,
+                        color: Colors.grey[500],
                       )
+                    ),
                   ),
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      print('Elevated button');
-                    },
-                    child: Text('Elevated Button'),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orangeAccent,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)
-                        )
-                    )
-                ),
-                OutlinedButton(
-                    onPressed: () {
-                      print('Outlined Button');
-                    },
-                    child: Text('Outlined Button'),
-                    style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.green,
-                        side: BorderSide(
-                          color: Colors.red,
-                          width: 3,
-                        )
-                    )
-                ),
-                TextButton.icon(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.home,
-                      size: 20.0,
-                      color: Colors.green,
-                    ),
-                    label: Text('Go to Home'),
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.green,
-                      minimumSize: Size(300, 300),
-                      disabledBackgroundColor: Colors.amber,
-                    )
-                ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.center,
-                  buttonPadding: EdgeInsets.all(10),
-                  children: [
-                    TextButton(
-                      onPressed: (){},
-                      child: Text('enter'),
-                    ),
-                    ElevatedButton(
-                      onPressed: (){},
-                      child: Text('exit'),
-                    ),
-                  ],
-                )
-              ],
+                  ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.close),
+                      label: const Text('Close'))
+                ],
+              )
             )
-        )
+          );
+        }
     );
   }
-}
-
-class ThirdPage extends StatelessWidget {
-  const ThirdPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldMessenger(
-      child: Scaffold(
+    double width = MediaQuery.of(context).size.width * 0.6;
+    return Scaffold(
         appBar: AppBar(
-            title: Text('Third Page')
+          title: const Text('ListView',
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 20.0,
+            )),
+          backgroundColor: Colors.white,
+          elevation: 0,
         ),
-        body: Builder(
-            builder: (context) {
-              return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+        body: ListView.builder(
+          itemCount: titleList.length,
+          itemBuilder: (context, index) {
+            return InkWell(
+              onTap: () {
+                showPopup(context, titleList[index], imageList[index], description[index]);
+              },
+              child: Card(
+                  child: Row(
                     children: [
-                      const Text('좋아요를 취소하시겠습니까?',
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.redAccent
-                        ),
-                      ),
-                      ElevatedButton(onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('좋아요가 취소되었습니다'),
-                            duration: Duration(seconds: 3),
-                          ),
-                        );
-                      }, child: Text('취소하기'))
-                    ],
-                  )
-              );
-            }
-        ),
-      ),
-    );
+                      SizedBox(width: 100, height: 100, child: Image.asset(imageList[index])),
+                      Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              Text(
+                                titleList[index],
+                                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.grey),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              SizedBox(
+                                width: width,
+                                child: Text(
+                                  description[index],
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey[500],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ))
+                ],
+              )),
+            );
+        }));
   }
 }
